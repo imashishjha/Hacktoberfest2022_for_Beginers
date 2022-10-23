@@ -1,0 +1,44 @@
+class Solution {
+public:
+    int m;
+    int n;
+    bool isvalid(int i, int j){
+        if(i<0 ||  i>=m || j>= n|| j<0)return false;
+        return true;
+    }
+
+    
+    bool findword(int i, int j, int s, string &word, vector<vector<char>>& board, vector<vector<int>> &vis){
+        if(s==word.size()){
+            return true;
+        }  
+        if(!isvalid(i, j) || vis[i][j] ||  word[s]!=board[i][j])return false;
+        vis[i][j]=1;
+        // cout<<s<<endl;
+        //move up
+            if(findword(i-1, j, s+1, word, board, vis))return true;
+
+            if(findword(i+1, j, s+1, word, board, vis))return true;
+
+            if(findword(i, j-1, s+1, word, board, vis))return true;
+ 
+            if(findword(i, j+1, s+1, word, board, vis))return true;
+        
+        vis[i][j]=0;
+        return false;
+    }
+    
+    bool exist(vector<vector<char>>& board, string word) {
+        m= board.size();
+        n= board[0].size();
+        vector<vector<int>> vis(m, vector<int>(n,0));
+        for(int i=0; i<m; i++){
+            for(int j=0; j<n; j++){
+                if(findword(i, j, 0, word,board, vis)){
+                   return true;
+                }
+            }
+        }
+        return false;
+    }
+};
